@@ -28,7 +28,7 @@ class SplashScene: SKScene, SKPhysicsContactDelegate {
         SplashSceneBackground.setScale(0.5)
         
         SplashSceneBackground.run(moveToNextSceneDelay) {
-            let diffculiesScene = difficultyScene(size: self.size)
+            let diffculiesScene = DifficultyScene(size: self.size)
             self.view!.presentScene(diffculiesScene)
             
         }
@@ -62,15 +62,12 @@ class SplashScene: SKScene, SKPhysicsContactDelegate {
         }
 }
 
-class difficultyScene: SKScene {
+class DifficultyScene: SKScene {
     // local variables to this scene
     let pongLabel = SKLabelNode(fontNamed: "Chalkduster")
     let easyButton = SKSpriteNode(imageNamed: "IMG_1049.PNG")
     let mediumButton = SKSpriteNode(imageNamed: "IMG_1050.PNG")
     let hardButton = SKSpriteNode(imageNamed: "IMG_1051.PNG")
-    
-    
-
     
     override func didMove(to view: SKView) {
         // this is run when the scene loads
@@ -118,7 +115,7 @@ class difficultyScene: SKScene {
             if touchedNodeName == "easy button" {
                 //UserDefaults().set(dific, forKey: "easy")
                 DIFIC = 0.25
-                let mainGameScene = gameScene(size: self.size)
+                let mainGameScene = GameScene(size: self.size)
                 self.view!.presentScene(mainGameScene)
                 
             } 
@@ -126,14 +123,14 @@ class difficultyScene: SKScene {
             if touchedNodeName == "medium button" {
                 
                 DIFIC = 0.2
-                let mainGameScene = gameScene(size: self.size)
+                let mainGameScene = GameScene(size: self.size)
                 self.view!.presentScene(mainGameScene)
             }
             
             if touchedNodeName == "hard button" {
                 
                 DIFIC = 0.1
-                let mainGameScene = gameScene(size: self.size)
+                let mainGameScene = GameScene(size: self.size)
                 self.view!.presentScene(mainGameScene)
                 
             }
@@ -155,7 +152,7 @@ class difficultyScene: SKScene {
 }
 
 
-class gameScene: SKScene , SKPhysicsContactDelegate {
+class GameScene: SKScene , SKPhysicsContactDelegate {
     
     let gameSceneBackground = SKSpriteNode(imageNamed: "IMG_1029.PNG")
     let ball = SKSpriteNode(imageNamed: "IMG_5002.PNG")
@@ -184,7 +181,9 @@ class gameScene: SKScene , SKPhysicsContactDelegate {
         self.backgroundColor = SKColor(red: 1, green:1, blue:1, alpha: 1)
         
         gameSceneBackground.name = "game scene background"
-        gameSceneBackground.position = CGPoint(x: frame.size.width/2, y: frame.size.height / 2)
+        gameSceneBackground.position = CGPoint(x: frame.midX, y: frame.midY)
+        gameSceneBackground.size = CGSize(width: frame.size.width, height: frame.size.height)
+        
         self.addChild(gameSceneBackground) 
         gameSceneBackground.setScale(1)
         
@@ -206,7 +205,7 @@ class gameScene: SKScene , SKPhysicsContactDelegate {
         winLabel.text = ""
         winLabel.fontColor = #colorLiteral(red: 0.9254902005195618, green: 0.23529411852359772, blue: 0.10196078568696976, alpha: 1.0)
         winLabel.fontSize = 100
-        winLabel.position = CGPoint(x: frame.size.width / 2 , y: frame.size.height / 2 + 50)
+        winLabel.position = CGPoint(x: frame.size.width / 2 , y: frame.size.height / 2)
         self.addChild(winLabel)
         
         //user paddle
@@ -365,7 +364,7 @@ class GameOverScene: SKScene {
         
         if let touchedNodeName = touchedNode.name {
             if touchedNodeName == "menu button" {
-                let diffculiesScene = difficultyScene(size: self.size)
+                let diffculiesScene = DifficultyScene(size: self.size)
                 self.view!.presentScene(diffculiesScene)
             }
         }

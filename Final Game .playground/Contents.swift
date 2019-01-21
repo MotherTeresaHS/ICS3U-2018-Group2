@@ -2,16 +2,18 @@
 // Created by: Adam 
 // Created for: ICS3U
 // retro tennis 
-// pong field background
-// <a href="https://www.clipartmax.com/middle/m2K9A0m2N4d3K9m2_soccer-clip-art-soccer-field-black-and-white/" target="_blank">Soccer Clip Art - Soccer Field Black And White @clipartmax.com</a>
+// pong middle background by: Ian 
+// the way the enemy paddle moves idea was by me and my dad
+// restitution is the amount of bounciness given to whatever colided with it and I found that in that code in the offical apple website.
+// linear damping is the how you can make go gradually slower or faster wich was found in the apple website.
 
 import PlaygroundSupport
 import SpriteKit
  
+// global variable for the score
 var DIFIC : Double = 0 
 
-
-class SplashScene: SKScene, SKPhysicsContactDelegate {
+class GameScene: SKScene, SKPhysicsContactDelegate {
     // local variables to this scene
     let SplashSceneBackground = SKSpriteNode(imageNamed: "IMG_1028.PNG")
     let moveToNextSceneDelay = SKAction.wait(forDuration: 3)
@@ -23,11 +25,63 @@ class SplashScene: SKScene, SKPhysicsContactDelegate {
         self.backgroundColor = SKColor(red: 1, green:1, blue:1, alpha: 1.0)
         
         SplashSceneBackground.name = "Splash scene background"
-        SplashSceneBackground.position = CGPoint(x: frame.size.width/2, y: frame.size.height / 2)
+        SplashSceneBackground.position = CGPoint(x: frame.size.width/2.2, y: frame.size.height / 2.8)
         self.addChild(SplashSceneBackground) 
         SplashSceneBackground.setScale(0.5)
         
         SplashSceneBackground.run(moveToNextSceneDelay) {
+            let comScene = comLogoScene(size: self.size)
+            self.view!.presentScene(comScene)
+            
+        }
+        
+    }
+    
+    override func  update(_ currentTime: TimeInterval) {
+        //
+        
+    }
+    
+    func didBegin(_ contact: SKPhysicsContact) {
+        //
+        
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        //
+        
+    }
+    
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        //
+        
+    }
+    
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        //
+        
+        }
+    
+}
+
+class comLogoScene: SKScene, SKPhysicsContactDelegate {
+    
+    // local variables to this scene
+    let comSceneCom = SKSpriteNode(imageNamed: "IMG_1068.JPG")
+    let moveToNextSceneDelay = SKAction.wait(forDuration: 3)
+    
+    override func didMove(to view: SKView) {
+        // this is run when the scene loads
+        
+        /* Setup your scene here */
+        self.backgroundColor = SKColor(red: 1, green:1, blue:1, alpha: 1.0)
+        
+        comSceneCom.name = "company scene logo"
+        comSceneCom.position = CGPoint(x: frame.size.width / 2, y: frame.size.height / 2)
+        self.addChild(comSceneCom) 
+        comSceneCom.setScale(0.4)
+        
+        comSceneCom.run(moveToNextSceneDelay) {
             let diffculiesScene = DifficultyScene(size: self.size)
             self.view!.presentScene(diffculiesScene)
             
@@ -59,8 +113,12 @@ class SplashScene: SKScene, SKPhysicsContactDelegate {
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         //
         
-        }
+    }
 }
+
+
+
+
 
 class DifficultyScene: SKScene {
     // local variables to this scene
@@ -114,23 +172,23 @@ class DifficultyScene: SKScene {
         if let touchedNodeName = touchedNode.name {
             if touchedNodeName == "easy button" {
                 //UserDefaults().set(dific, forKey: "easy")
-                DIFIC = 0.25
-                let mainGameScene = GameScene(size: self.size)
+                DIFIC = 0.2
+                let mainGameScene = PongScene(size: self.size)
                 self.view!.presentScene(mainGameScene)
                 
             } 
             
             if touchedNodeName == "medium button" {
                 
-                DIFIC = 0.2
-                let mainGameScene = GameScene(size: self.size)
+                DIFIC = 0.15
+                let mainGameScene = PongScene(size: self.size)
                 self.view!.presentScene(mainGameScene)
             }
             
             if touchedNodeName == "hard button" {
                 
                 DIFIC = 0.1
-                let mainGameScene = GameScene(size: self.size)
+                let mainGameScene = PongScene(size: self.size)
                 self.view!.presentScene(mainGameScene)
                 
             }
@@ -152,9 +210,9 @@ class DifficultyScene: SKScene {
 }
 
 
-class GameScene: SKScene , SKPhysicsContactDelegate {
+class PongScene: SKScene , SKPhysicsContactDelegate {
     
-    let gameSceneBackground = SKSpriteNode(imageNamed: "IMG_1029.PNG")
+    let gameSceneBackground = SKSpriteNode(imageNamed: "IMG_5709.jpg")
     let ball = SKSpriteNode(imageNamed: "IMG_5002.PNG")
     let userP = SKSpriteNode(imageNamed: "IMG_5001.JPG")
     let enemyP = SKSpriteNode(imageNamed: "EnemyP.jpg")
@@ -167,11 +225,13 @@ class GameScene: SKScene , SKPhysicsContactDelegate {
     let moveToNextSceneDelay = SKAction.wait(forDuration: 5)
     let winLabel = SKLabelNode(fontNamed: "chalkduster")
     
+    // the colision of the paddles
     struct CategoryBitMask {
         static let userP: UInt32 = 0b1 << 0
         static let enemyP: UInt32 = 0b1 << 1
         }
     
+    //score
     var enemyScore : Int = 0
     var userScore : Int = 0
     
@@ -181,11 +241,9 @@ class GameScene: SKScene , SKPhysicsContactDelegate {
         self.backgroundColor = SKColor(red: 1, green:1, blue:1, alpha: 1)
         
         gameSceneBackground.name = "game scene background"
-        gameSceneBackground.position = CGPoint(x: frame.midX, y: frame.midY)
-        gameSceneBackground.size = CGSize(width: frame.size.width, height: frame.size.height)
-        
+        gameSceneBackground.position = CGPoint(x: frame.size.width/2, y: frame.size.height / 2)
         self.addChild(gameSceneBackground) 
-        gameSceneBackground.setScale(1)
+        gameSceneBackground.setScale(0.4)
         
         enemyLabel.text = " 0"
         enemyLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.left
@@ -205,7 +263,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate {
         winLabel.text = ""
         winLabel.fontColor = #colorLiteral(red: 0.9254902005195618, green: 0.23529411852359772, blue: 0.10196078568696976, alpha: 1.0)
         winLabel.fontSize = 100
-        winLabel.position = CGPoint(x: frame.size.width / 2 , y: frame.size.height / 2)
+        winLabel.position = CGPoint(x: frame.size.width / 2 , y: frame.size.height / 2 + 50)
         self.addChild(winLabel)
         
         //user paddle
@@ -244,11 +302,13 @@ class GameScene: SKScene , SKPhysicsContactDelegate {
         enemyP.setScale(2)
         
         //border
+        
         let border = SKPhysicsBody(edgeLoopFrom: self.frame)
         border.friction = 0
         border.restitution = 1
         self.physicsBody = border
         
+        //https://youtu.be/pk1YRxLu8n4
         ball.run(SKAction.playSoundFileNamed( "Music.mp3", waitForCompletion: false))
         
         
@@ -266,6 +326,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate {
         enemyP.run(SKAction.moveTo(y: ball.position.y, duration: TimeInterval(DIFIC)))
         
         //user losing when it goes behind his the paddle
+        
         if ball.position.x > userP.position.x + 75 {
             
             enemyP.position = CGPoint(x: 100 , y: (frame.size.height / 2))
@@ -381,7 +442,7 @@ let screenWidth = screenSize.width
 let screenHeight = screenSize.height
 let frame = CGRect(x: 0, y: 0, width: screenWidth, height: screenHeight)
 
-let scene = SplashScene(size: frame.size)
+let scene = GameScene(size: frame.size)
 scene.scaleMode = SKSceneScaleMode.resizeFill
 
 let skView = SKView(frame: frame)

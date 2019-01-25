@@ -244,6 +244,7 @@ class PongScene: SKScene , SKPhysicsContactDelegate {
         gameSceneBackground.position = CGPoint(x: frame.size.width/2, y: frame.size.height / 2)
         self.addChild(gameSceneBackground) 
         gameSceneBackground.setScale(0.4)
+        gameSceneBackground.zPosition = 1
         
         enemyLabel.text = " 0"
         enemyLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.left
@@ -251,6 +252,7 @@ class PongScene: SKScene , SKPhysicsContactDelegate {
         enemyLabel.fontSize = 70
         enemyLabel.position = CGPoint(x: frame.size.width / 2 - 80, y: frame.size.height - 80)
         self.addChild(enemyLabel)
+        enemyLabel.zPosition = 1.1
         
         userLabel.text = "  0"
         userLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.right
@@ -258,6 +260,7 @@ class PongScene: SKScene , SKPhysicsContactDelegate {
         userLabel.fontSize = 70
         userLabel.position = CGPoint(x: frame.size.width / 2 + 80, y: frame.size.height - 80)
         self.addChild(userLabel)
+        userLabel.zPosition = 1.2
         
         //winner label
         winLabel.text = ""
@@ -265,6 +268,7 @@ class PongScene: SKScene , SKPhysicsContactDelegate {
         winLabel.fontSize = 100
         winLabel.position = CGPoint(x: frame.size.width / 2 , y: frame.size.height / 2 + 50)
         self.addChild(winLabel)
+        winLabel.zPosition = 1.4
         
         //user paddle
         ball.name = "ball"
@@ -275,6 +279,7 @@ class PongScene: SKScene , SKPhysicsContactDelegate {
         ball.physicsBody?.linearDamping = -0.03
         ball.physicsBody?.angularDamping = -0.03
         self.addChild(ball)
+        ball.zPosition = 1.3
         
         //user paddle
         userP.name = "user paddle"
@@ -288,6 +293,7 @@ class PongScene: SKScene , SKPhysicsContactDelegate {
         userP.position = CGPoint(x: frame.size.width - 100, y: (frame.size.height / 2))
         self.addChild(userP)
         userP.setScale(2)
+        userP.zPosition = 2
         
         //enemy paddle 
         enemyP.name = "enemy Paddle"
@@ -300,6 +306,7 @@ class PongScene: SKScene , SKPhysicsContactDelegate {
         enemyP.position = CGPoint(x: 100 , y: (frame.size.height / 2))
         self.addChild(enemyP)
         enemyP.setScale(2)
+        enemyP.zPosition = 2.1
         
         //border
         
